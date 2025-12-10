@@ -84,7 +84,8 @@ workflow NFCORE_RNASEQ {
         params.skip_bbsplit,
         !params.remove_ribo_rna,
         params.skip_alignment,
-        params.skip_pseudo_alignment
+        params.skip_pseudo_alignment,
+        params.use_sentieon_star
     )
     ch_versions = ch_versions.mix(PREPARE_GENOME.out.versions)
 
@@ -117,8 +118,7 @@ workflow NFCORE_RNASEQ {
         PREPARE_GENOME.out.bbsplit_index,
         PREPARE_GENOME.out.rrna_fastas,
         PREPARE_GENOME.out.sortmerna_index,
-        PREPARE_GENOME.out.splicesites,
-        !params.remove_ribo_rna && params.remove_ribo_rna
+        PREPARE_GENOME.out.splicesites
     )
     ch_versions = ch_versions.mix(RNASEQ.out.versions)
 
@@ -147,7 +147,11 @@ workflow {
         params.validate_params,
         params.monochrome_logs,
         args,
-        params.outdir
+        params.outdir,
+        params.input,
+        params.help,
+        params.help_full,
+        params.show_hidden
     )
 
     //

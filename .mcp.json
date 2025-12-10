@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "seqera-platform": {
+      "type": "http",
+      "url": "https://mcp.seqera.io/mcp"
+    }
+  }
+}
