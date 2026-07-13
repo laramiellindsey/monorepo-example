@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/nextflow-io/hello/master/nextflow_schema.json",
+    "title": "nextflow-io/hello pipeline parameters",
+    "description": "A simple Hello World pipeline for Nextflow",
+    "type": "object",
+    "definitions": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input files.",
+            "properties": {
+                "input": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "fa_icon": "fas fa-folder-open",
+                    "description": "Path to a directory containing input files, one greeting per file.",
+                    "help_text": "Accepts a local path or a remote path such as an S3 URI, e.g. 's3://my-bucket/hello-input/'. Each file found is read and its contents used as the greeting text. If not provided, the pipeline falls back to its built-in demo greetings."
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/definitions/input_output_options"
+        }
+    ]
+}

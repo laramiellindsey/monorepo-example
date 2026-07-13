@@ -1,16 +1,25 @@
 #!/usr/bin/env nextflow
 
+params.input = null
+
 process sayHello {
-  input: 
-    val x
+  input:
+    path infile
   output:
     stdout
   script:
     """
-    echo '$x world!'
+    echo "\$(cat $infile) world!"
     """
 }
 
 workflow {
-  Channel.of('Bonjour', 'Ciao', 'Hello', 'Hola') | sayHello | view
+  if (params.input) {
+    Channel.fromPath(params.input, checkIfExists: true) | sayHello | view
+  }
+  else {
+    Channel.of('Bonjour', 'Ciao', 'Hello', 'Hola')
+      .collectFile { greeting -> [ "${greeting}.txt", greeting ] }
+      | flatten | sayHello | view
+  }
 }
