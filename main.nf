@@ -3,6 +3,8 @@
 params.input = null
 
 process sayHello {
+  conda 'conda-forge::coreutils=9.5'
+
   input:
     path infile
   output:
