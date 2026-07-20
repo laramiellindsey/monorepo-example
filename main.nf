@@ -3,7 +3,7 @@
 params.input = null
 
 process sayHello {
-  container '651706780852.dkr.ecr.us-east-1.amazonaws.com/sushma-wave-blobcache-mirror-test:latest'
+  container 'test-registry.sushma.svc.cluster.local:5000/alpine:latest'
 
   input:
     path infile
