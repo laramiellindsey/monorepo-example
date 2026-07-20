@@ -3,7 +3,7 @@
 params.input = null
 
 process sayHello {
-  conda 'conda-forge::coreutils=9.5 conda-forge::gawk=5.3.0 conda-forge::sed=4.9'
+  container '651706780852.dkr.ecr.us-east-1.amazonaws.com/sushma-wave-blobcache-mirror-test:latest'
 
   input:
     path infile
