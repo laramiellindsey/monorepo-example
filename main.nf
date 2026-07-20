@@ -3,7 +3,7 @@
 params.input = null
 
 process sayHello {
-  container 'test-registry.sushma.svc.cluster.local:5000/alpine:latest'
+  container 'localhost:5000/alpine:latest'
 
   input:
     path infile
