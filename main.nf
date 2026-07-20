@@ -3,7 +3,7 @@
 params.input = null
 
 process sayHello {
-  conda 'conda-forge::coreutils=9.5'
+  conda 'conda-forge::coreutils=9.5 conda-forge::gawk=5.3.0'
 
   input:
     path infile
