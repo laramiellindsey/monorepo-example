@@ -1,0 +1,109 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com//master/nextflow_schema.json",
+    "title": " pipeline parameters",
+    "description": "",
+    "type": "object",
+    "$defs": {
+        "parameters": {
+            "title": "Parameters",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Parameters for controlling execution of the pipeline.",
+            "properties": {
+                "run": {
+                    "type": "string",
+                    "description": "Selectively run tests  as comma delimited values",
+                    "help_text": "Tests to run as comma delimited values. E.g. --skip TEST_SUCCESS,TEST_INPUT. Case insensitive. Note this excludes all other tests."
+                },
+                "skip": {
+                    "type": "string",
+                    "description": "Tests to skip as comma delimited values.",
+                    "help_text": "Tests to skip as comma delimited values. E.g. --skip TEST_SUCCESS,TEST_INPUT. Case insensitive."
+                },
+                "remoteFile": {
+                    "type": "string",
+                    "description": "Path to remote file to download and use.",
+                    "help_text": "Path to a remote file to use within the pipeline. This mimics a remote set of files such as reference data that may need to be retrieved prior to analysis. By default this is not specified and the test is not ran, add a remote file using standard Nextflow filenaming to pull a file from your storage (e.g. an S3 bucket or shared storage).",
+                    "format": "path"
+                },
+                "container": {
+                    "type": "string",
+                    "description": "Container URI for nf-canary",
+                    "help_text": "Specifies the container URI. By default, this is an Ubuntu container on quay.io with no usage limits.",
+                    "default": "quay.io/biocontainers/ubuntu:24.04"
+                },
+                "gpu_container": {
+                    "type": "string",
+                    "description": "Container URI for the GPU test process.",
+                    "help_text": "Specifies the container URI used by TEST_GPU. This allows the GPU check to run inside the container used by your pipeline process.",
+                    "default": "pytorch/pytorch:latest"
+                },
+                "gpu": {
+                    "type": "boolean",
+                    "description": "Whether to test GPU utilization within a process."
+                },
+                "outdir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Path to use for publishing output files.",
+                    "help_text": "Path to a remote folder to publish files to. If not specified, this is a subfolder within the working directory but if specified it will publish files to the path specified in this parameter."
+                }
+            }
+        },
+        "fusion_options": {
+            "title": "Fusion Filesystem Options",
+            "type": "object",
+            "fa_icon": "fas fa-layer-group",
+            "description": "Configure Fusion filesystem validation and diagnostics.",
+            "properties": {
+                "fusion": {
+                    "type": "boolean",
+                    "description": "Run Fusion filesystem diagnostics via 'fusion-doctor'.",
+                    "help_text": "When enabled, run the TEST_FUSION_DOCTOR process to validate Fusion requirements.",
+                    "fa_icon": "fas fa-stethoscope"
+                },
+                "fusion_redact": {
+                    "type": "boolean",
+                    "description": "Redact PII from the Fusion diagnostics report.",
+                    "help_text": "When enabled, instructs 'fusion-doctor' to mask personally identifiable information (hostnames, IPs, bucket names, etc.) from the diagnostic output.",
+                    "fa_icon": "fas fa-mask",
+                    "default": false
+                },
+                "fusion_cache_path": {
+                    "type": "string",
+                    "description": "Filesystem path for Fusion cache directory.",
+                    "help_text": "Specifies the directory where Fusion should cache data locally. Used by the diagnostics process to verify sufficient disk space is available.",
+                    "default": "/tmp",
+                    "pattern": "^/.*$",
+                    "fa_icon": "fas fa-hdd",
+                    "hidden": true
+                },
+                "fusion_read_only_buckets": {
+                    "type": "string",
+                    "description": "Comma-separated list of read-only cloud storage buckets to validate access.",
+                    "help_text": "Comma-separated URIs of cloud storage buckets that require read-only access. The diagnostics process will validate if the task can read from these buckets. Supports AWS S3 (s3://), Google Cloud Storage (gs://), and Azure Blob Storage (az://). Example: 's3://reference-data,gs://shared-files'",
+                    "pattern": "^((s3://|gs://|az://)[a-zA-Z0-9][a-zA-Z0-9._/-]*(,(s3://|gs://|az://)[a-zA-Z0-9][a-zA-Z0-9._/-]*)*)?$",
+                    "fa_icon": "fas fa-eye",
+                    "default": ""
+                },
+                "fusion_read_write_buckets": {
+                    "type": "string",
+                    "description": "Comma-separated list of read-write cloud storage buckets to validate access.",
+                    "help_text": "Comma-separated URIs of cloud storage buckets that require read-write access. The diagnostics process will validate if the task can read from and write to these buckets. Supports AWS S3 (s3://), Google Cloud Storage (gs://), and Azure Blob Storage (az://). Example: 's3://results,gs://output-data'",
+                    "pattern": "^((s3://|gs://|az://)[a-zA-Z0-9][a-zA-Z0-9._/-]*(,(s3://|gs://|az://)[a-zA-Z0-9][a-zA-Z0-9._/-]*)*)?$",
+                    "fa_icon": "fas fa-pen",
+                    "default": ""
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/parameters"
+        },
+        {
+            "$ref": "#/$defs/fusion_options"
+        }
+    ]
+}
